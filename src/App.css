@@ -1,6 +1,7 @@
 .App {
   text-align: center;
-  /* background-color: rgb(60, 59, 85); */
+  color: rgb(181, 181, 181);
+  background-color: #353639;
 }
 
 .App-header {
@@ -16,4 +17,8 @@
 
 .App-link {
   color: #61dafb;
+}
+
+hr {
+  color: darkgray
 }
