@@ -3,53 +3,48 @@ import React, { useState, Component } from 'react';
 import Select from 'react-select';
 import { render } from '@testing-library/react';
 import { Checkbox, checkboxClasses } from '@mui/material';
-// import Button from '@mui/material/Button';
-// import Select from '@mui/material/Select'
-// import MenuItem from '@mui/material/MenuItem'
 
 export default function App() {
   const [invulnerability, setInvulnerability] = React.useState(false);
   const [persistence, setPersistence] = React.useState(false);
   const [silent, setSilent] = React.useState(false);
   const [noAi, setNoAi] = React.useState(false);
-  const [selectedType, setSelectedType] = React.useState('plains');
+  const [selectedType, setSelectedType] = React.useState('desert');
   const [selectedLevel, setSelectedLevel] = React.useState('1');
-  const [selectedProfession, setSelectedProfession] = React.useState('fisherman');
+  const [selectedProfession, setSelectedProfession] = React.useState('armorer');
   const [villagerName, setVillagerName] = React.useState('')
   const [customName, setCustomName] = React.useState('');
   const [xPos, setXPos] = React.useState(0);
   const [yPos, setYPos] = React.useState(1);
   const [zPos, setZPos] = React.useState(0);
-  const [isRelative, setIsRelative] = React.useState(true);
-  const [relativePosition, setRelativePosition] = React.useState(`~${xPos} ~${yPos} ~${zPos}`);
-  const [absolutePosition, setAbsolutePosition] = React.useState(`${xPos} ${yPos} ${zPos}`);
-
+  const [isRelative, setIsRelative] = React.useState('true');
+  const [position, setPosition] = React.useState(`~${xPos} ~${yPos} ~${zPos}`);
   const [outputCommand, setOutputCommand] = React.useState('');
 
   const biomes = [
-    {value: 'plains', label: 'Plains' },
     {value: 'desert', label: 'Desert' },
-    {value: 'savanna', label: 'Savanna' },
-    {value: 'taiga', label: 'Taiga' },
-    {value: 'swamp', label: 'Swamp' },
     {value: 'jungle', label: 'Jungle' },
+    {value: 'plains', label: 'Plains' },
+    {value: 'savanna', label: 'Savanna' },
+    {value: 'swamp', label: 'Swamp' },
+    {value: 'taiga', label: 'Taiga' },
   ]
 
   const professions = [
-    {value: 'farmer', label: 'Farmer' },
-    {value: 'fisherman', label: 'Fisherman' },
-    {value: 'shepherd', label: 'Shepherd' },
-    {value: 'fletcher', label: 'Fletcher' },
-    {value: 'librarian', label: 'Librarian' },
+    {value: 'armorer', label: 'Armorer' },
+    {value: 'butcher', label: 'Butcher' },
     {value: 'cartographer', label: 'Cartographer' },
     {value: 'cleric', label: 'Cleric' },
-    {value: 'armorer', label: 'Armorer' },
-    {value: 'weaponsmith', label: 'Weaponsmith' },
-    {value: 'toolsmith', label: 'Toolsmith' },
-    {value: 'butcher', label: 'Butcher' },
+    {value: 'farmer', label: 'Farmer' },
+    {value: 'fisherman', label: 'Fisherman' },
+    {value: 'fletcher', label: 'Fletcher' },
     {value: 'leatherworker', label: 'Leatherworker' },
+    {value: 'librarian', label: 'Librarian' },
     {value: 'mason', label: 'Mason' },
     {value: 'nitwit', label: 'Nitwit' },
+    {value: 'shepherd', label: 'Shepherd' },
+    {value: 'toolsmith', label: 'Toolsmith' },
+    {value: 'weaponsmith', label: 'Weaponsmith' },
   ]
 
   const levels = [
@@ -60,24 +55,6 @@ export default function App() {
     {value: '5', label: 'Master'},
   ]
 
-  console.log('outputCommand: ', outputCommand);
-
-  const handleSetBiome = (event) => {
-   setSelectedType(event.target.value);
-  }
-
-  const handleSetLevel = (event) => {
-    setSelectedLevel(event.target.value);
-  }
-
-  const handleSetIsRelative = (event) => {
-    setIsRelative(event.target.value);
-  }
-
-  const handleSetProfession = (event) => {
-    setSelectedProfession(event.target.value);
-  }
-
   const handleSetVillagerName = (event) => {
     setVillagerName(event.target.value);
     if (event.target.value !== '') {
@@ -85,34 +62,21 @@ export default function App() {
     } else {
       setCustomName('');
     }
+  }
+
+  const handleSetProfession = (event) => {
+    setSelectedProfession(event.target.value);
+  }
+
+    const handleSetLevel = (event) => {
+      setSelectedLevel(event.target.value);
     }
 
-  const handleSetXPos = (event) => {
-    setXPos(event.target.value);
-    setAbsolutePosition(`${event.target.value} ${yPos} ${zPos}`)
-    setRelativePosition(`~${event.target.value} ~${yPos} ~${zPos}`)
-    }
-
-  const handleSetYPos = (event) => {
-    setYPos(event.target.value);
-    setAbsolutePosition(`${xPos} ${event.target.value} ${zPos}`)
-    setRelativePosition(`~${xPos} ~${event.target.value} ~${zPos}`)
-    }
-
-    const handleSetZPos = (event) => {
-      setZPos(event.target.value);
-      setAbsolutePosition(`${xPos} ${yPos} ${event.target.value}`)
-      setRelativePosition(`~${xPos} ~${yPos} ~${event.target.value}`)
-      }
-
-  const handleReset = (event) => {
-    console.log('reset');
-    setCustomName('');
-    setVillagerName('');
+  const handleSetBiome = (event) => {
+   setSelectedType(event.target.value);
   }
 
   const handleSetInvulnerability = (event) => {
-    setInvulnerability(event.target.checked);
     if (event.target.checked === true) {
       setInvulnerability(`,Invulnerable:1`);
     } else {
@@ -147,9 +111,49 @@ export default function App() {
     }
   }
 
+  const handleSetIsRelative = (event) => {
+    console.log('event.target.value: ',event.target.value);
+    console.log('isRelative: ', isRelative);
+    console.log('position: ', position);
+    if (event.target.value === 'true') {
+      setIsRelative(event.target.value);
+      setPosition(`~${xPos} ~${yPos} ~${zPos}`);
+    } else {
+      setIsRelative(event.target.value);
+      setPosition(`${xPos} ${yPos} ${zPos}`);
+    }
+  }
+
+  const handleSetXPos = (event) => {
+    setXPos(event.target.value);
+    isRelative === 'true'
+    ? setPosition(`~${event.target.value} ~${yPos} ~${zPos}`)
+    : setPosition(`${event.target.value} ${yPos} ${zPos}`)
+  }
+
+  const handleSetYPos = (event) => {
+    setYPos(event.target.value);
+    isRelative === 'true'
+      ? setPosition(`~${xPos} ~${event.target.value} ~${zPos}`)
+      : setPosition(`${xPos} ${event.target.value} ${zPos}`)
+  }
+
+  const handleSetZPos = (event) => {
+    setZPos(event.target.value);
+    isRelative === 'true'
+    ? setPosition(`~${xPos} ~${yPos} ~${event.target.value}`)
+    : setPosition(`${xPos} ${yPos} ${event.target.value}`)
+  }
+
+  const handleReset = (event) => {
+    console.log('reset');
+    setCustomName('');
+    setVillagerName('');
+  }
+
   const handleOnSubmit = (event) => {
     event.preventDefault();
-    setOutputCommand(`/summon villager ${isRelative ? relativePosition : absolutePosition}
+    setOutputCommand(`/summon villager ${position}
       {VillagerData:{
         profession:${selectedProfession},
         level:${selectedLevel},
@@ -164,22 +168,22 @@ export default function App() {
 
   return (
     <div className='App'>
-      {console.log('=====================================')}
+      {console.log('======================================================')}
+      {console.log('villager name:', villagerName)}
       {console.log('profession:', selectedProfession)}
       {console.log('level:', selectedLevel)}
       {console.log('biome:', selectedType)}
-      {console.log('villager name:', villagerName)}
       {console.log('customName: ', customName)}
       {console.log('invulnerability: ', invulnerability)}
       {console.log('persistence: ', persistence)}
       {console.log('silent: ', silent)}
       {console.log('noAi: ', noAi)}
+      {console.log('isRelative: ', isRelative)}
       {console.log('xPos: ', xPos)}
       {console.log('yPos: ', yPos)}
       {console.log('zPos: ', zPos)}
-      {console.log('isRelative: ', isRelative)}
-      {console.log('relativePosition: ', relativePosition)}
-      {console.log('absolutePosition: ', absolutePosition)}
+      {console.log('position: ', position)}
+      {console.log('======================================================')}
 
       <form action=''>
         <h1>Villager Trade Generator</h1>
@@ -314,7 +318,7 @@ export default function App() {
           <button onClick={handleOnSubmit}>Generate Command</button>
           <button onClick={handleReset}>Reset</button>
         </form>
-        <p value={outputCommand} name="" id="" cols="30" rows="10">{outputCommand}</p>
+        <p value={outputCommand}>{outputCommand}</p>
     </div>
   );
 }
