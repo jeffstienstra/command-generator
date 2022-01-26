@@ -9,52 +9,60 @@ export default function App() {
   const [persistence, setPersistence] = React.useState(false);
   const [silent, setSilent] = React.useState(false);
   const [noAi, setNoAi] = React.useState(false);
-  const [selectedType, setSelectedType] = React.useState('desert');
+  const [selectedType, setSelectedType] = React.useState('');
   const [selectedLevel, setSelectedLevel] = React.useState('1');
-  const [selectedProfession, setSelectedProfession] = React.useState('armorer');
+  const [selectedProfession, setSelectedProfession] = React.useState('');
   const [villagerName, setVillagerName] = React.useState('')
   const [customName, setCustomName] = React.useState('');
+  const [isRelative, setIsRelative] = React.useState('true');
   const [xPos, setXPos] = React.useState(0);
   const [yPos, setYPos] = React.useState(1);
   const [zPos, setZPos] = React.useState(0);
-  const [isRelative, setIsRelative] = React.useState('true');
+  const [xRot, setXRot] = React.useState(0);
+  const [yRot, setYRot] = React.useState(0);
+  const [rotation, setRotation] = React.useState('');
   const [position, setPosition] = React.useState(`~${xPos} ~${yPos} ~${zPos}`);
   const [outputCommand, setOutputCommand] = React.useState('');
 
   const biomes = [
-    {value: 'desert', label: 'Desert' },
-    {value: 'jungle', label: 'Jungle' },
-    {value: 'plains', label: 'Plains' },
-    {value: 'savanna', label: 'Savanna' },
-    {value: 'swamp', label: 'Swamp' },
-    {value: 'taiga', label: 'Taiga' },
+    {value: 'type:desert', label: 'Desert' },
+    {value: 'type:jungle', label: 'Jungle' },
+    {value: '', label: 'Plains' },
+    {value: 'type:savanna', label: 'Savanna' },
+    {value: 'type:snow', label: 'Snow' },
+    {value: 'type:swamp', label: 'Swamp' },
+    {value: 'type:taiga', label: 'Taiga' },
   ]
 
   const professions = [
-    {value: 'armorer', label: 'Armorer' },
-    {value: 'butcher', label: 'Butcher' },
-    {value: 'cartographer', label: 'Cartographer' },
-    {value: 'cleric', label: 'Cleric' },
-    {value: 'farmer', label: 'Farmer' },
-    {value: 'fisherman', label: 'Fisherman' },
-    {value: 'fletcher', label: 'Fletcher' },
-    {value: 'leatherworker', label: 'Leatherworker' },
-    {value: 'librarian', label: 'Librarian' },
-    {value: 'mason', label: 'Mason' },
-    {value: 'nitwit', label: 'Nitwit' },
-    {value: 'shepherd', label: 'Shepherd' },
-    {value: 'toolsmith', label: 'Toolsmith' },
-    {value: 'weaponsmith', label: 'Weaponsmith' },
+    {value: '', label: 'None' },
+    {value: 'profession:armorer,', label: 'Armorer' },
+    {value: 'profession:butcher,', label: 'Butcher' },
+    {value: 'profession:cartographer,', label: 'Cartographer' },
+    {value: 'profession:cleric,', label: 'Cleric' },
+    {value: 'profession:farmer,', label: 'Farmer' },
+    {value: 'profession:fisherman,', label: 'Fisherman' },
+    {value: 'profession:fletcher,', label: 'Fletcher' },
+    {value: 'profession:leatherworker,', label: 'Leatherworker' },
+    {value: 'profession:librarian,', label: 'Librarian' },
+    {value: 'profession:mason,', label: 'Mason' },
+    {value: 'profession:nitwit,', label: 'Nitwit' },
+    {value: 'profession:shepherd,', label: 'Shepherd' },
+    {value: 'profession:toolsmith,', label: 'Toolsmith' },
+    {value: 'profession:weaponsmith,', label: 'Weaponsmith' },
   ]
 
   const levels = [
-    {value: '1', label: 'Novice (May change professions)'},
-    {value: '2', label: 'Apprentice'},
-    {value: '3', label: 'Journeyman'},
-    {value: '4', label: 'Expert'},
-    {value: '5', label: 'Master'},
+    {value: 'level:1,', label: 'Novice (May change professions)'},
+    {value: 'level:2,', label: 'Apprentice'},
+    {value: 'level:3,', label: 'Journeyman'},
+    {value: 'level:4,', label: 'Expert'},
+    {value: 'level:5,', label: 'Master'},
+    {value: 'level:99,', label: 'No Default Trades'},
   ]
 
+//             Set Villager Info
+// \/===========================================\/
   const handleSetVillagerName = (event) => {
     setVillagerName(event.target.value);
     if (event.target.value !== '') {
@@ -111,6 +119,8 @@ export default function App() {
     }
   }
 
+//             Set Positioning
+// \/===========================================\/
   const handleSetIsRelative = (event) => {
     console.log('event.target.value: ',event.target.value);
     console.log('isRelative: ', isRelative);
@@ -145,6 +155,19 @@ export default function App() {
     : setPosition(`${xPos} ${yPos} ${event.target.value}`)
   }
 
+  const handleSetXRot = (event) => {
+    // Rotation:[-80f,-90f]
+    setXRot(event.target.value);
+    setRotation(`,Rotation:[${event.target.value}f,${yRot}f]`)
+  }
+
+  const handleSetYRot = (event) => {
+    setYRot(event.target.value);
+    setRotation(`,Rotation:[${xRot}f,${event.target.value}f]`)
+  }
+
+//          Set Output Command & Reset
+// \/===========================================\/
   const handleReset = (event) => {
     console.log('reset');
     setCustomName('');
@@ -154,16 +177,18 @@ export default function App() {
   const handleOnSubmit = (event) => {
     event.preventDefault();
     setOutputCommand(`/summon villager ${position}
-      {VillagerData:{
-        profession:${selectedProfession},
-        level:${selectedLevel},
-        type:${selectedType}}
+      ${selectedProfession !== '' || selectedType !== '' || rotation !== '' ? '{VillagerData:{' : ''}
+        ${selectedProfession !== '' ? selectedProfession : ''}
+        ${selectedProfession !== '' ? selectedLevel : ''}
+        ${selectedType === '' ? '' : selectedType}
+      ${selectedProfession !== '' || selectedType !== '' || rotation !== '' ? '}' : ''}
+        ${rotation !== 0 ? rotation : ''}
         ${invulnerability ? invulnerability : ''}
         ${persistence ? persistence : ''}
         ${silent ? silent : ''}
         ${noAi ? noAi : ''}
         ${villagerName ? customName : ''}
-      }`)
+      ${selectedProfession !== '' || selectedType !== ''  || rotation !== '' ? '}' : ''}`)
   }
 
   return (
@@ -182,7 +207,10 @@ export default function App() {
       {console.log('xPos: ', xPos)}
       {console.log('yPos: ', yPos)}
       {console.log('zPos: ', zPos)}
+      {console.log('xRot: ', xRot)}
+      {console.log('yRot: ', yRot)}
       {console.log('position: ', position)}
+      {console.log('rotation: ', rotation)}
       {console.log('======================================================')}
 
       <form action=''>
@@ -212,28 +240,31 @@ export default function App() {
                   ))}
               </select>
             </div>
-            <div>
-              <label htmlFor='levels'>Level</label>
-              <select name='levels'
-                id='levels'
-                value={selectedLevel}
-                onChange={handleSetLevel}>
-                  {levels.map((level) => (
-                    <option key={level.value} value={level.value}>{level.label}</option>
-                  ))}
-              </select>
-            </div>
-            <div>
-              <label htmlFor="biome">Biome</label>
-              <select name='biome'
-                id='biomes'
-                value={selectedType}
-                onChange={handleSetBiome}>
-                  {biomes.map((biome) => (
-                    <option key={biome.value} value={biome.value}>{biome.label}</option>
-                  ))}
-              </select>
-            </div>
+            {(selectedProfession !== '') && (
+              <div>
+                <label htmlFor='levels'>Level</label>
+                <select name='levels'
+                  id='levels'
+                  value={selectedLevel}
+                  onChange={handleSetLevel}>
+                    {levels.map((level) => (
+                      <option key={level.value} value={level.value}>{level.label}</option>
+                    ))}
+                </select>
+              </div>
+            )}
+              <div>
+                <label htmlFor="biome">Biome</label>
+                <select name='biome'
+                  id='biomes'
+                  value={selectedType}
+                  onChange={handleSetBiome}>
+                    {biomes.map((biome) => (
+                      <option key={biome.value} value={biome.value}>{biome.label}</option>
+                    ))}
+                </select>
+              </div>
+  {/* <img src="/images-villagers/Desert_Villager_Base.png" alt="desert villager" /> */}
           </div>
 
   {/* CHECKBOX SELECTORS */}
@@ -302,8 +333,8 @@ export default function App() {
                 value={yPos}
                 onChange={handleSetYPos}
                 />
-              </div>
-              <div>
+            </div>
+            <div>
               <label htmlFor='zpos'>Z:</label>
               <input
                 name='zpos'
@@ -312,7 +343,28 @@ export default function App() {
                 value={zPos}
                 onChange={handleSetZPos}
                 />
-              </div>
+            </div>
+            <div>
+              <label htmlFor='xRot'>xRotation (body rotation):</label>
+              <input
+                name='xrot'
+                type='number'
+                placeholder='0'
+                value={xRot}
+                onChange={handleSetXRot}
+                />
+            </div>
+            <div>
+              <label htmlFor='yRot'>yRotation (head tilt: 0=ahead, -90=up, 90=down):</label>
+              <input
+                name='yrot'
+                type='number'
+                placeholder='0'
+                value={yRot}
+                onChange={handleSetYRot}
+                />
+            </div>
+
           </div>
           <hr />
           <button onClick={handleOnSubmit}>Generate Command</button>
