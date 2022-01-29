@@ -169,10 +169,6 @@ export default function App() {
     ? ''
     : `,Rotation:[${xRot}f, ${yRot}f]`
 
-    // const customName = villagerName !== ''
-    //   ? villagerName
-    //   : ''
-
     const villagerData =
       // selectedType === 'plains'
       // && selectedProfession === 'unemployed'
