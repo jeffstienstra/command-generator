@@ -20,7 +20,7 @@
                             }
                         }
                     },
-                "rewardExp":"0b", // no rewardExp
+                "rewardExp":"0b", // do not reward exp
                 "xp":10, // award 10 xp
                 "priceMultiplier":"0.1f",
                 "specialPrice":-1,
