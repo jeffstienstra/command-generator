@@ -1,0 +1,17 @@
+{
+    "unemployed": "",
+    "armorer": "blast_furnace.gif",
+    "butcher": "smoker.gif",
+    "cartographer": "cartography_table.png",
+    "cleric": "brewing_stand.png",
+    "farmer": "composter.png",
+    "fisherman": "barrel.png",
+    "fletcher": "fletching_table.png",
+    "leatherworker": "cauldron.png",
+    "librarian": "lectern.png",
+    "mason": "stonecutter.gif",
+    "nitwit": "",
+    "shepherd": "loom.png",
+    "toolsmith": "smithing_table.png",
+    "weaponsmith": "grindstone.png"
+  }

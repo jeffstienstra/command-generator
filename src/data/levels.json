@@ -1,0 +1,8 @@
+[
+    {"value": "1", "label": "Novice (May change professions)"},
+    {"value": "2", "label": "Apprentice"},
+    {"value": "3", "label": "Journeyman"},
+    {"value": "4", "label": "Expert"},
+    {"value": "5", "label": "Master"},
+    {"value": "99", "label": "No Default Trades"}
+  ]

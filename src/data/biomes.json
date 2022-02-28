@@ -1,0 +1,9 @@
+[
+    {"value": "desert", "label": "Desert" },
+    {"value": "jungle", "label": "Jungle" },
+    {"value": "plains", "label": "Plains" },
+    {"value": "savanna", "label": "Savanna" },
+    {"value": "snow", "label": "Snow" },
+    {"value": "swamp", "label": "Swamp" },
+    {"value": "taiga", "label": "Taiga" }
+  ]

@@ -1,5 +1,10 @@
 [
     {
+      "namespacedId": "none",
+      "image": "",
+      "item": "- Select -"
+    },
+    {
       "name": "Acacia Button",
       "namespacedId": "acacia_button",
       "description": "A button is a non-solid block that can provide temporary redstone power.",
@@ -6214,36 +6219,6 @@
       ]
     },
     {
-      "name": "Creeper Wall Head",
-      "namespacedId": "creeper_wall_head",
-      "description": "A head is a decorative block. There are six types of heads: player (only Steve's head), zombie, skeleton, wither skeleton, creeper, and dragon.",
-      "image": "https://minecraft-api.vercel.app/blocks/creeper_wall_head.png",
-      "item": "Creeper Head",
-      "tool": null,
-      "flammable": false,
-      "transparent": true,
-      "luminance": 0,
-      "blastResistance": 3,
-      "colors": [
-        {
-          "color": [65, 110, 61],
-          "amount": 0.686
-        },
-        {
-          "color": [123, 197, 113],
-          "amount": 0.28
-        },
-        {
-          "color": [10, 18, 7],
-          "amount": 0.022
-        },
-        {
-          "color": [153, 153, 153],
-          "amount": 0.011
-        }
-      ]
-    },
-    {
       "name": "Crimson Button",
       "namespacedId": "crimson_button",
       "description": "A button is a non-solid block that can provide temporary redstone power.",
@@ -9436,36 +9411,6 @@
       "namespacedId": "dragon_head",
       "description": "A head is a decorative block. There are six types of heads: player (only Steve's head), zombie, skeleton, wither skeleton, creeper, and dragon.",
       "image": "https://minecraft-api.vercel.app/blocks/dragon_head.png",
-      "item": "Dragon Head",
-      "tool": null,
-      "flammable": false,
-      "transparent": true,
-      "luminance": 0,
-      "blastResistance": 1,
-      "colors": [
-        {
-          "color": [18, 18, 18],
-          "amount": 0.893
-        },
-        {
-          "color": [142, 65, 159],
-          "amount": 0.08
-        },
-        {
-          "color": [81, 81, 81],
-          "amount": 0.012
-        },
-        {
-          "color": [68, 68, 68],
-          "amount": 0.012
-        }
-      ]
-    },
-    {
-      "name": "Dragon Wall Head",
-      "namespacedId": "dragon_wall_head",
-      "description": "A head is a decorative block. There are six types of heads: player (only Steve's head), zombie, skeleton, wither skeleton, creeper, and dragon.",
-      "image": "https://minecraft-api.vercel.app/blocks/dragon_wall_head.png",
       "item": "Dragon Head",
       "tool": null,
       "flammable": false,
@@ -17529,36 +17474,6 @@
       "namespacedId": "player_head",
       "description": "A head is a decorative block. There are six types of heads: player (only Steve's head), zombie, skeleton, wither skeleton, creeper, and dragon.",
       "image": "https://minecraft-api.vercel.app/blocks/player_head.png",
-      "item": "Player Head",
-      "tool": null,
-      "flammable": false,
-      "transparent": true,
-      "luminance": 0,
-      "blastResistance": 1,
-      "colors": [
-        {
-          "color": [37, 24, 13],
-          "amount": 0.766
-        },
-        {
-          "color": [166, 153, 148],
-          "amount": 0.087
-        },
-        {
-          "color": [100, 65, 46],
-          "amount": 0.072
-        },
-        {
-          "color": [130, 93, 78],
-          "amount": 0.072
-        }
-      ]
-    },
-    {
-      "name": "Player Wall Head",
-      "namespacedId": "player_wall_head",
-      "description": "A head is a decorative block. There are six types of heads: player (only Steve's head), zombie, skeleton, wither skeleton, creeper, and dragon.",
-      "image": "https://minecraft-api.vercel.app/blocks/player_wall_head.png",
       "item": "Player Head",
       "tool": null,
       "flammable": false,
@@ -27214,36 +27129,5 @@
           "amount": 0.011
         }
       ]
-    },
-    {
-      "name": "Zombie Wall Head",
-      "namespacedId": "zombie_wall_head",
-      "description": "A head is a decorative block. There are six types of heads: player (only Steve's head), zombie, skeleton, wither skeleton, creeper, and dragon.",
-      "image": "https://minecraft-api.vercel.app/blocks/zombie_wall_head.png",
-      "item": "Zombie Head",
-      "tool": null,
-      "flammable": false,
-      "transparent": true,
-      "luminance": 0,
-      "blastResistance": 1,
-      "colors": [
-        {
-          "color": [68, 105, 51],
-          "amount": 0.461
-        },
-        {
-          "color": [34, 55, 25],
-          "amount": 0.361
-        },
-        {
-          "color": [55, 85, 42],
-          "amount": 0.16
-        },
-        {
-          "color": [52, 68, 44],
-          "amount": 0.011
-        }
-      ]
     }
   ]
-  

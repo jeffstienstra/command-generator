@@ -1,0 +1,17 @@
+[
+    {"value": "unemployed", "label": "None" },
+    {"value": "armorer", "label": "Armorer" },
+    {"value": "butcher", "label": "Butcher" },
+    {"value": "cartographer", "label": "Cartographer" },
+    {"value": "cleric", "label": "Cleric" },
+    {"value": "farmer", "label": "Farmer" },
+    {"value": "fisherman", "label": "Fisherman" },
+    {"value": "fletcher", "label": "Fletcher" },
+    {"value": "leatherworker", "label": "Leatherworker" },
+    {"value": "librarian", "label": "Librarian" },
+    {"value": "mason", "label": "Mason" },
+    {"value": "nitwit", "label": "Nitwit" },
+    {"value": "shepherd", "label": "Shepherd" },
+    {"value": "toolsmith", "label": "Toolsmith" },
+    {"value": "weaponsmith", "label": "Weaponsmith" }
+  ]

@@ -1,0 +1,48 @@
+{"Offers":
+    {
+        "Recipes":[
+            {
+                "buy":{
+                    "id":"acacia_boat",
+                    "Count":1
+                    },
+                "buyB":{
+                    "id":"acacia_button",
+                    "Count":2
+                    },
+                "sell":{
+                    "id":"acacia_fence",
+                    "Count":1,
+                    "tag":{
+                        "display":{
+                            "Name":"\"MY FENCE\"",
+                            "Lore":["\"a special fence\""]
+                            }
+                        }
+                    },
+                "rewardExp":"0b", // no rewardExp
+                "xp":10, // award 10 xp
+                "priceMultiplier":"0.1f",
+                "specialPrice":-1,
+                "demand":-5,
+                "maxUses":9999999
+            },
+            {
+                "buy":{
+                    "id":"bamboo",
+                    "Count":1
+                    },
+                "buyB":{
+                    "id":"beetroot_soup",
+                    "Count":1
+                    },
+                "sell":{
+                    "id":"diamond_block",
+                    "Count":1
+                    },
+                "rewardExp":"0b",
+                "maxUses":9999999
+            }
+        ]
+    }
+}
