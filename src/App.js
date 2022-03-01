@@ -8,7 +8,12 @@ import levels from './data/levels'
 import professions from './data/professions'
 import workstations from './data/workstations'
 
-const {handleInputChange} = require('./helpers/hooks-helper');
+const {
+  handleInputChange,
+  handleClearItem,
+  handleSetItemCount,
+  handleSetSelectedItem
+} = require('./helpers/hooks-helper');
 const {handleSetInvulnerability, handleSetIsRelative, handleSetPersistence, handleSetSilent, handleSetNoAi} = require('./helpers/villager-properties-helper');
 const _ = require('lodash');
 
@@ -21,7 +26,7 @@ export default function App() {
   const [persistence, setPersistence] = useState(false);
   const [selectedBuyItem1, setSelectedBuyItem1] = useState({});
   const [selectedBuyItem2, setSelectedBuyItem2] = useState({});
-  const [selectedSellItem1, setSelectedSellItem1] = useState({});
+  const [selectedSellItem, setSelectedSellItem] = useState({});
   const [effects, setEffects] = useState(rawEffects.map((effect) => effect));
   const [selectedProfession, setSelectedProfession] = useState('unemployed');
   const [selectedLevel, setSelectedLevel] = useState('1');
@@ -35,7 +40,7 @@ export default function App() {
   const [yRot, setYRot] = useState(0);
   const [buyItem1Count, setBuyItem1Count] = useState(1);
   const [buyItem2Count, setBuyItem2Count] = useState(1);
-  const [sellItem1Count, setSellItem1Count] = useState(1);
+  const [sellItemCount, setSellItemCount] = useState(1);
   const [outputCommand, setOutputCommand] = useState('');
   const [recipes, setRecipes] = useState([]);
   const [recipe, setRecipe] = useState({});
@@ -125,126 +130,11 @@ export default function App() {
     }
   }
 
-  const handleSetSelectedBuyItem1 = (event) => {
-    const selectedItem = itemList.filter((item) => item.value === event.target.value)[0]
-
-    if (event.target.value === 'none') {
-      setSelectedBuyItem1({});
-      setBuyItem1Count(1);
-    } else {
-      setSelectedBuyItem1(
-        {
-          label: selectedItem.label,
-          value: selectedItem.value,
-          image: selectedItem.image,
-          count: selectedBuyItem1.count,
-          stackSize: selectedItem.stackSize,
-        }
-      );
-      setBuyItem1Count(1);
-    }
-  };
-
-  const handleClearBuyItem1 = () => {
-    setSelectedBuyItem1(
-      {
-        "name": "- Select -",
-        "namespacedId": "none",
-        "image": "",
-        "item": "- Select -"
-      },
-    );
-    setEffects([...effects])
-    setBuyItem1Count(1);
-  }
-
-  const handleSetBuyItem1Count = (selectedBuyItem1) => {
-    return (event) => {
-      console.log('event.target', event.target);
-      if (event.target.value > selectedBuyItem1.stackSize) {
-      setBuyItem1Count(selectedBuyItem1.count = selectedBuyItem1.stackSize)
-      } else if (event.target.value < 1) {
-        setBuyItem1Count(selectedBuyItem1.count = 1)
-      } else {
-      setBuyItem1Count(selectedBuyItem1.count = event.target.value)
-      }
-    }
-  }
-
-  const handleSetSelectedBuyItem2 = (event) => {
-    const selectedItem = itemList.filter((item) => item.value === event.target.value)[0]
-
-    if (event.target.value === 'none') {
-      setSelectedBuyItem2({});
-      setBuyItem2Count(1);
-    } else {
-      setSelectedBuyItem2(
-        {
-          label: selectedItem.label,
-          value: selectedItem.value,
-          image: selectedItem.image,
-          count: selectedBuyItem2.count,
-          stackSize: selectedItem.stackSize,
-        }
-      );
-      setBuyItem2Count(1);
-    }
-  };
-
-  const handleClearBuyItem2 = () => {
-    setSelectedBuyItem2({});
-  }
-
-  const handleSetBuyItem2Count = (selectedBuyItem2) => {
-    return (event) => {
-      console.log('event.target', event.target);
-      if (event.target.value > selectedBuyItem2.stackSize) {
-      setBuyItem2Count(selectedBuyItem2.count = selectedBuyItem2.stackSize)
-      } else if (event.target.value < 1) {
-        setBuyItem2Count(selectedBuyItem2.count = 1)
-      } else {
-      setBuyItem2Count(selectedBuyItem2.count = event.target.value)
-      }
-    }
-    }
-
-    const handleSetSelectedSellItem1 = (event) => {
-      const selectedItem = itemList.filter((item) => item.value === event.target.value)[0]
-
-      if (event.target.value === 'none') {
-        setSelectedSellItem1({});
-        setSellItem1Count(1);
-      } else {
-        setSelectedSellItem1(
-          {
-            label: selectedItem.label,
-            value: selectedItem.value,
-            image: selectedItem.image,
-            count: selectedSellItem1.count,
-            stackSize: selectedItem.stackSize,
-          }
-        );
-        setSellItem1Count(1);
-      }
-      };
-
-    const handleClearSellItem1 = () => {
-      setSelectedSellItem1({});
-
-    }
-
-    const handleSetSellItem1Count = (selectedSellItem1) => {
-      return (event) => {
-        console.log('event.target', event.target);
-        if (event.target.value > selectedSellItem1.stackSize) {
-        setSellItem1Count(selectedSellItem1.count = selectedSellItem1.stackSize)
-        } else if (event.target.value < 1) {
-          setSellItem1Count(selectedSellItem1.count = 1)
-        } else {
-          setSellItem1Count(selectedSellItem1.count = event.target.value)
-        }
-      }
-    }
+    // const handleClearAllItems = () => {
+    //   handleClearBuyItem1()
+    //   handleClearBuyItem2()
+    //   handleClearSellItem()
+    // }
 
 
 
@@ -323,7 +213,7 @@ export default function App() {
       {console.log('biome:', selectedType)} */}
       {console.log('selectedBuyItem1', selectedBuyItem1)}
       {console.log('selectedBuyItem2', selectedBuyItem2)}
-      {console.log('selectedSellItem1', selectedSellItem1)}
+      {console.log('selectedSellItem', selectedSellItem)}
       {/* {console.log('invulnerability: ', invulnerability)}
       {console.log('persistence: ', persistence)}
       {console.log('silent: ', silent)}
@@ -617,7 +507,7 @@ export default function App() {
               name='buy-item-1'
               id='buy-item-1'
               value={selectedBuyItem1.name}
-              onChange={handleSetSelectedBuyItem1}>
+              onChange={handleSetSelectedItem(itemList, selectedBuyItem1, setSelectedBuyItem1, setBuyItem1Count)}>
                 {itemList.map((item) => (
                   <option key={item.label} value={item.value}>{item.label}</option>
                   ))}
@@ -629,7 +519,7 @@ export default function App() {
                     <select
                       name='quantity'
                       className='select-menu'
-                      onChange={handleSetBuyItem1Count(selectedBuyItem1)}
+                      onChange={handleSetItemCount(selectedBuyItem1, setBuyItem1Count)}
                       value={selectedBuyItem1.count}>
                         {stackSize64.map((num) => (
                           num <= selectedBuyItem1.stackSize
@@ -645,7 +535,7 @@ export default function App() {
               </div>
             )}
             {(selectedBuyItem1.value !== undefined) && (
-              <button onClick={handleClearBuyItem1}>Clear</button>
+              <button onClick={handleClearItem(setSelectedBuyItem1, setBuyItem1Count)}>Clear</button>
             )}
           </div>
 
@@ -659,8 +549,8 @@ export default function App() {
                 className='selector-text'
                 name='buy-item-2'
                 id='buy-item-2'
-                value={selectedBuyItem2.value}
-                onChange={handleSetSelectedBuyItem2}>
+                value={selectedBuyItem2.name}
+                onChange={handleSetSelectedItem(itemList, selectedBuyItem2, setSelectedBuyItem2, setBuyItem2Count)}>
                   {itemList.map((item) => (
                     <option key={item.label} value={item.value}>{item.label}</option>
                     ))}
@@ -672,7 +562,7 @@ export default function App() {
                     <select
                       name='quantity'
                       className='select-menu'
-                      onChange={handleSetBuyItem2Count(selectedBuyItem2)}
+                      onChange={handleSetItemCount(selectedBuyItem2, setBuyItem2Count)}
                       value={selectedBuyItem2.count}>
                         {stackSize64.map((num) => (
                           num <= selectedBuyItem2.stackSize
@@ -688,7 +578,7 @@ export default function App() {
                 </div>
               )}
               {(selectedBuyItem2.value !== undefined) && (
-              <button onClick={handleClearBuyItem2}>Clear</button>
+              <button onClick={handleClearItem(setSelectedBuyItem2, setBuyItem2Count)}>Clear</button>
               )}
             </div>
           </div>
@@ -703,23 +593,23 @@ export default function App() {
                 className='selector-text'
                 name='sell-item-1'
                 id='sell-item-1'
-                value={selectedSellItem1.value}
-                onChange={handleSetSelectedSellItem1}>
+                value={selectedSellItem.name}
+                onChange={handleSetSelectedItem(itemList, selectedSellItem, setSelectedSellItem, setSellItemCount)}>
                   {itemList.map((item) => (
                     <option key={item.label} value={item.value}>{item.label}</option>
                     ))}
               </select>
-              {(selectedSellItem1.label !== undefined) && (
+              {(selectedSellItem.label !== undefined) && (
                 <div>
                   <div>
                     <label htmlFor='quanitity'>Quantity:</label>
                     <select
                       name='quantity'
                       className='select-menu'
-                      onChange={handleSetSellItem1Count(selectedSellItem1)}
-                      value={sellItem1Count.count}>
+                      onChange={handleSetItemCount(selectedSellItem, setSellItemCount)}
+                      value={sellItemCount.count}>
                         {stackSize64.map((num) => (
-                          num <= selectedSellItem1.stackSize
+                          num <= selectedSellItem.stackSize
                           ? <option key={num} value={num}>{num}</option>
                           : ''
                         ))}
@@ -727,27 +617,32 @@ export default function App() {
                   </div>
                   <div className='inventory-slot'>
                     <img className='inventory-slot-image' src={require('./images/items/inventory_slot.png')} alt='inventory slot'/>
-                    <img className='trade-item-image' src={selectedSellItem1.image} alt={selectedSellItem1.item} />
+                    <img className='trade-item-image' src={selectedSellItem.image} alt={selectedSellItem.item} />
                   </div>
-                  {/* <p>{selectedSellItem1.label}</p> */}
+                  {/* <p>{selectedSellItem.label}</p> */}
                 </div>
               )}
-              {(selectedSellItem1.value !== undefined) && (
-              <button onClick={handleClearSellItem1}>Clear</button>
+              {(selectedSellItem.value !== undefined) && (
+              <button onClick={handleClearItem(setSelectedSellItem, setSellItemCount)}>Clear</button>
               )}
             </div>
           </div>
         </div>
+        {/* <div>
+          <button onClick={handleClearAllItems}>Clear All</button>
+        </div> */}
 
+        <div className='generate-command-panel'>
         {(outputCommand !== '') && (
           <>
             <hr className='divider' />
-            <p value={outputCommand}>{outputCommand}</p>
+            <p className='command-text' value={outputCommand}>{outputCommand}</p>
           </>
         )}
         <hr className='divider' />
-          <button onClick={handleOnSubmit}>Generate Command</button>
+          <button className='generate-command-button' onClick={handleOnSubmit}>Generate Command</button>
           <button onClick={handleReset}>Reset</button>
+        </div>
       </form>
     </div>
   );
