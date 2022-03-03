@@ -18,7 +18,6 @@ const {handleSetInvulnerability, handleSetIsRelative, handleSetPersistence, hand
 const _ = require('lodash');
 
 export default function App() {
-  // const [activeEffects, setActiveEffects] = useState('');
   const [customName, setCustomName] = useState('');
   const [invulnerability, setInvulnerability] = useState(false);
   const [isRelative, setIsRelative] = useState('true');
@@ -42,7 +41,26 @@ export default function App() {
   const [buyItem2Count, setBuyItem2Count] = useState(1);
   const [sellItemCount, setSellItemCount] = useState(1);
   const [outputCommand, setOutputCommand] = useState('');
-  const [recipes, setRecipes] = useState([]);
+
+// TODO: finish setting up Offer recipes array/formatting
+  const [recipes, setRecipes] = useState([
+    {
+      buy:{
+        id: selectedBuyItem1,
+        Count: buyItem1Count
+      },
+      buyB:{
+        id: selectedBuyItem2,
+        Count: buyItem2Count
+      },
+      sell:{
+        id: selectedSellItem,
+        Count: sellItemCount
+      },
+      rewardExp:'0b',
+      maxUses: 9999999
+    }
+  ]);
   const [recipe, setRecipe] = useState({});
 
   const regex = /\,(?!\s*?[\{\[\"\'\w])/g;
@@ -59,15 +77,7 @@ export default function App() {
   });
   const itemList = _.uniq(_.without(_.map(fullItemList),undefined,null,''), 'value');
 
-  const stackSize64 = [
-    1, 2, 3, 4, 5, 6, 7, 8, 9,
-    10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
-    20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
-    30, 31, 32, 33, 34, 35, 36, 37, 38, 39,
-    40, 41, 42, 43, 44, 45, 46, 47, 48, 49,
-    50, 51, 52, 53, 54, 55, 56, 57, 58, 59,
-    60, 61, 62, 63, 64
-  ]
+  const stackSize64 = _.range(1, 64)
 
 //             Set Villager Info
 // \/===========================================\/
@@ -130,18 +140,9 @@ export default function App() {
     }
   }
 
-    // const handleClearAllItems = () => {
-    //   handleClearBuyItem1()
-    //   handleClearBuyItem2()
-    //   handleClearSellItem()
-    // }
-
-
-
 //          Set Output Command & Reset
 // \/===========================================\/
   const handleReset = (event) => {
-    console.log('reset');
     setCustomName('');
     setVillagerName('');
   }
@@ -189,6 +190,12 @@ export default function App() {
         })}
         ]`
 
+    // TODO: finish setting up Offer recipes array/formatting
+    const offers =
+        `,Offers:{Recipes:${recipes.map((trade) => {
+          return trade
+        })}}`
+
     // TODO: fix comma situation
     setOutputCommand(
       ('/summon villager ' + position
@@ -196,35 +203,17 @@ export default function App() {
       + villagerData
       + villagerOptions
       + activeEffects
+      + offers
       + '}').replace(regex, '').replace(removeComma, '[{').replace(replaceComma, 'f,-')
       )
   }
 
   return (
     <div className='App'>
-      {/* {console.log('itemList:', itemList)} */}
       {console.log('effects : ', effects)}
-      {/* {console.log('raweffects : ', rawEffects)} */}
-      {/* {console.log('activeeffects : ', activeEffects)} */}
-      {/* {console.log('villager name:', villagerName)}
-      {console.log('profession:', selectedProfession)}
-      {console.log('workstation:', `./images/workstations/${workstations[selectedProfession]}`)}
-      {console.log('level:', selectedLevel)}
-      {console.log('biome:', selectedType)} */}
       {console.log('selectedBuyItem1', selectedBuyItem1)}
       {console.log('selectedBuyItem2', selectedBuyItem2)}
       {console.log('selectedSellItem', selectedSellItem)}
-      {/* {console.log('invulnerability: ', invulnerability)}
-      {console.log('persistence: ', persistence)}
-      {console.log('silent: ', silent)}
-      {console.log('noAi: ', noAi)}
-      {console.log('isRelative: ', isRelative)}
-      {console.log('xPos: ', xPos)}
-      {console.log('yPos: ', yPos)}
-      {console.log('zPos: ', zPos)}
-      {console.log('xRot: ', xRot)}
-      {console.log('yRot: ', yRot)} */}
-      {/* {console.log('selectedEffects : ', selectedEffects)} */}
       {console.log('======================================================')}
 
       <form action=''>
@@ -296,121 +285,117 @@ export default function App() {
           </div>
         </div>
 
-        {/* VILLAGER EFFECTS - checkboxes */}
+        {/* VILLAGER OPTIONS - checkboxes */}
         <hr className='divider' />
-        <h3 className='panel-title'>Villager Effects</h3>
-
+        <h3 className='panel-title'>Villager Options</h3>
         <div className='options-panel'>
           <div></div>
           <div className='options'>
-            <div>
-              <Checkbox
-                className='invulnerability'
-                value={invulnerability}
-                onChange={handleSetInvulnerability(setInvulnerability)}
-                >click it</Checkbox>
-              <label htmlFor='invulnerability'>Invulnerable</label>
-            </div>
-            <div>
-              <Checkbox
-                className='persistence'
-                value={persistence}
-                onChange={handleSetPersistence(setPersistence)}
-                >click it</Checkbox>
-              <label htmlFor='persistence'>Persistent</label>
-            </div>
+            <Checkbox
+              className='invulnerability'
+              value={invulnerability}
+              onChange={handleSetInvulnerability(setInvulnerability)}
+              >click it</Checkbox>
+            <label htmlFor='invulnerability'>Invulnerable</label>
           </div>
           <div className='options'>
-            <div>
-              <Checkbox
-                className='silent'
-                value={silent}
-                onChange={handleSetSilent(setSilent)}
-                >click it</Checkbox>
-              <label htmlFor='silent'>Silent</label>
-            </div>
-            <div>
-              <Checkbox
-                className='noAi'
-                value={noAi}
-                onChange={handleSetNoAi(setNoAi)}
-                >click it</Checkbox>
-              <label htmlFor='silent'>NoAI</label>
-            </div>
+            <Checkbox
+              className='persistence'
+              value={persistence}
+              onChange={handleSetPersistence(setPersistence)}
+              >click it</Checkbox>
+            <label htmlFor='persistence'>Persistent</label>
+          </div>
+          <div className='options'>
+            <Checkbox
+              className='silent'
+              value={silent}
+              onChange={handleSetSilent(setSilent)}
+              >click it</Checkbox>
+            <label htmlFor='silent'>Silent</label>
+          </div>
+          <div className='options'>
+            <Checkbox
+              className='noAi'
+              value={noAi}
+              onChange={handleSetNoAi(setNoAi)}
+              >click it</Checkbox>
+            <label htmlFor='silent'>NoAI</label>
           </div>
         </div>
 
         {/* VILLAGER EFFECTS - dropdown */}
+        <hr className='divider' />
+        <h3 className='panel-title'>Villager Effects</h3>
         <div>
-          <div>
+          {/* <div>
             <label htmlFor='effects'>Effects</label>
-          </div>
-          <div>
+          </div> */}
+          <div className='effects-selector'>
             <select
-              className='effects-selector'
+              className='effects-selector-menu'
               name='effects'
-              id='effects'
-              multiple={true}
-              value={effects}
+              value='- Select Multiple Effects-'
+              multiple={false}
               onChange={handleAddEffect}>
                 {effects.map((effect) => (
                   effect.isActiveEffect === true || effect.namespacedId === 'none'
-                  ? <option key={effect.namespacedId} value={effect.namespacedId} disabled >&#10004; {effect.name}</option>
-                  : <option key={effect.namespacedId} value={effect.namespacedId}>{effect.name}</option>
+                  ? <option className='effects-selector-menu-item' key={effect.namespacedId} value={effect.namespacedId} disabled >&#10004; {effect.name}</option>
+                  : <option className='effects-selector-menu-item' key={effect.namespacedId} value={effect.namespacedId}>{effect.name}</option>
                   ))}
             </select>
           </div>
         </div>
-        <div>
-          {effects.map((effect) => (
-            effect.isActiveEffect === true
-            ? <div key={effect.name}>
-                <div>
-                  <label >{effect.name}</label>
-                </div>
-                <img className='effect-image'
-                  src={require(`./images/effects/${effect.namespacedId}.png`)}
-                  alt={`${selectedType} ${selectedProfession}`} />
-                <div >
-                  <label htmlFor='amplifier'>Amplifier:</label>
-                  <input
-                    className='selector-number'
-                    name='amplifier'
-                    type='number'
-                    placeholder={effect.amplifier}
-                    value={effect.amplifier}
-                    onChange={handleAmplifierChange(effect)}
-                    />
-                  {(effect.amplifier === "255") && (
-                    ' (max=255)'
+          <div className='active-effects-panel'>
+            {effects.map((effect) => (
+              effect.isActiveEffect === true
+              ? <div className='active-effect' key={effect.name}>
+                  <img className='effect-image'
+                    src={require(`./images/effects/${effect.namespacedId}.png`)}
+                    alt={`${selectedType} ${selectedProfession}`} />
+                  <div>
+                    <label >{effect.name}</label>
+                  </div>
+                  <div >
+                    <label htmlFor='amplifier'>Amplifier:</label>
+                    <input
+                      className='selector-number'
+                      name='amplifier'
+                      type='number'
+                      placeholder={effect.amplifier}
+                      value={effect.amplifier}
+                      onChange={handleAmplifierChange(effect)}
+                      />
+                    {(effect.amplifier === "255") && (
+                      ' (max=255)'
+                      )}
+                    {(effect.amplifier === "0") && (
+                      ' (min=0)'
                     )}
-                  {(effect.amplifier === "0") && (
-                    ' (min=0)'
-                  )}
-                </div>
-                <div>
-                  <label htmlFor='duration'>Duration:</label>
-                  <input
-                    className='selector-number'
-                    name='duration'
-                    type='number'
-                    placeholder={effect.duration}
-                    value={effect.duration}
-                    onChange={handleDurationChange(effect)}
-                    />
-                  {(effect.duration === "1000000") && (
-                    ' (max=1000000)'
+                  </div>
+                  <div>
+                    <label htmlFor='duration'>Duration:</label>
+                    <input
+                      className='selector-number'
+                      name='duration'
+                      type='number'
+                      placeholder={effect.duration}
+                      value={effect.duration}
+                      onChange={handleDurationChange(effect)}
+                      />
+                    {(effect.duration === "1000000") && (
+                      ' (max=1000000)'
+                      )}
+                    {(effect.duration === "1") && (
+                      ' (min=1)'
                     )}
-                  {(effect.duration === "1") && (
-                    ' (min=1)'
-                  )}
 
+                  </div>
+                  <button onClick={handleRemoveEffect(effect)}>Remove</button>
                 </div>
-                <button onClick={handleRemoveEffect(effect)}>Remove</button>
-              </div>
-            : <p key={effect.id}></p>
-          ))}
-        </div>
+              : ''
+            ))}
+          </div>
         <hr className='divider' />
 
         {/* POSITIONING */}
@@ -628,9 +613,6 @@ export default function App() {
             </div>
           </div>
         </div>
-        {/* <div>
-          <button onClick={handleClearAllItems}>Clear All</button>
-        </div> */}
 
         <div className='generate-command-panel'>
         {(outputCommand !== '') && (

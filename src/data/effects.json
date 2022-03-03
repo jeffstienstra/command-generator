@@ -1,5 +1,14 @@
 [
     {
+        "name": "- Select Multiple Effects -",
+        "description": "",
+        "id": 0,
+        "namespacedId": "stuff",
+        "isActiveEffect": false,
+        "amplifier": 0,
+        "duration": 0
+    },
+    {
         "name": "Absorption",
         "description": "Adds yellow Absorption health hearts",
         "id": 22,

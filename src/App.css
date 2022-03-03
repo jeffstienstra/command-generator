@@ -19,6 +19,19 @@
 .App-link {
   color: #61dafb;
 }
+.active-effects-panel {
+  display: grid;
+  justify-content: center;
+  width: 650px;
+  grid-template-columns: 160px 160px 160px 160px;
+  grid-template-rows: 160px;
+  padding: 10px 10px 5px 10px;
+  margin-left: calc((94vw - 640px) / 2);
+}
+.active-effects-panel .active-effect {
+  width: 150px;
+  padding: 0px 10px 5px 10px;
+}
 .badge-image {
   max-height: 3em;
   position: relative;
@@ -45,11 +58,7 @@
 .effect-image {
   max-height: 10em;
   position: relative;
-  padding: 5px;
-}
-.effects-selector {
-  padding: 2px;
-  height: 125px;
+  padding: 0;
 }
 .generate-command-panel {
   padding: 0px 10px 5px 10px;
@@ -71,11 +80,11 @@
 }
 .options-panel {
   display: grid;
-  grid-template-columns: 1fr 150px 150px 1fr;
+  grid-template-columns: 1fr 150px 150px 150px 150px 1fr;
   padding: 0px 10px 10px 10px;
 }
 .options {
-  max-width: 150px;
+  max-width: 145px;
 }
 .panel-title {
   margin: 10px;
