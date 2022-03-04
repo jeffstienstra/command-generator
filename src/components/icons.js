@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
-import { FaHeart, FaRegHeart } from 'react-icons/fa';
-import { BsHeartFill, BsHeart } from "react-icons/bs";
-import {FaQuestion} from 'react-icons/fa';
+import { BiQuestionMark } from 'react-icons/bi'; //BoxIcons
+import { BsPlusSquare, BsFillQuestionSquareFill } from "react-icons/bs"; //BootStrap
+import { FaQuestionCircle, FaRegQuestionCircle} from 'react-icons/fa'; //FontAwesome
 
 class Icons extends Component {
   render() {
     return (
     <div>
-      <FaHeart />
-      <FaRegHeart />
-      <BsHeartFill />
-      <BsHeart />
-      <FaQuestion />
+      <BiQuestionMark />
+      <BsFillQuestionSquareFill />
+      <BsPlusSquare />
+      <FaQuestionCircle />
+      <FaRegQuestionCircle />
+      <FaRegQuestionCircle />
     </div>
     )
   }

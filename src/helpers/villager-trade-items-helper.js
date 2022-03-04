@@ -1,20 +1,14 @@
 
 const hooksHelper = {
-    handleCheckboxChange(setter) {
+    handleValueChange(setter) {
         return (event) => {
-            setter(event.target.checked);
+            setter(event.target.value);
         };
     },
 
     handleInputChange(setter) {
         return (event) => {
             setter(event.target.value);
-        };
-    },
-
-    handleRadioChange(setter, value) {
-        return (event) => {
-            setter(value);
         };
     },
 
@@ -64,12 +58,6 @@ const hooksHelper = {
             itemCountSetter(selectedItem.count = event.target.value)
             }
         }
-    },
-
-    handleValueChange(setter) {
-        return (event) => {
-            setter(event.target.value);
-        };
     },
 };
 

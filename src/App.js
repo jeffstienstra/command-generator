@@ -7,20 +7,20 @@ import items from './data/items'
 import levels from './data/levels'
 import professions from './data/professions'
 import workstations from './data/workstations'
-import { FaQuestion } from "react-icons/fa";
+import {BiQuestionMark} from "react-icons/bi";
 
 const _ = require('lodash');
 const {
-  handleInputChange,
   handleClearItem,
+  handleInputChange,
   handleSetItemCount,
   handleSetSelectedItem,
   handleValueChange
-  } = require('./helpers/hooks-helper');
+  } = require('./helpers/villager-trade-items-helper');
 
 const {
-  handleSetProperty,
   handleSetIsRelative,
+  handleSetProperty,
   handleSetXpRewardsEnabled
   } = require('./helpers/villager-trade-checkbox-helper');
 
@@ -59,6 +59,11 @@ export default function App() {
   const [specialPrice, setSpecialPrice] = useState('');
   const [priceMultiplier, setPriceMultiplier] = useState('');
   const [demand, setDemand] = useState('');
+  const [sellItemName, setSellItemName] = useState('')
+  const [customSellItemName, setCustomSellItemName] = useState('')
+  const [sellItemLore, setSellItemLore] = useState('')
+  const [customSellItemLore, setCustomSellItemLore] = useState('')
+
 
 // TODO: finish setting up Offer recipes array/formatting
   const [recipes, setRecipes] = useState([
@@ -96,7 +101,7 @@ export default function App() {
   const itemList = _.uniq(_.without(_.map(fullItemList),undefined,null,''), 'value');
 
   const priceMultiplierMenu = ['-Select-',0, 0.05, 0.1, 0.15, 0.2]
-  const demandMenu = ['-Select-',0, 0.05, 0.1, 0.15, 0.2]
+  const demandMenu = ['-Select-', -15, -10, -5, 5, 10, 15]
 
   const rangeGenerator = (rangeStart, rangeEnd) => {
     return _.range(rangeStart, rangeEnd)
@@ -140,14 +145,23 @@ export default function App() {
     }
   }
 
-  // const handleRemoveEffect = (effect) => {
-  //   return () => {
-  //     effect.isActiveEffect = false;
-  //     effect.amplifier = 1;
-  //     effect.duration = 999999;
-  //     setEffects([...effects])
-  //   }
-  // }
+  const handleSetSellItemName = (event) => {
+    setSellItemName(event.target.value);
+    if (event.target.value !== '') {
+      setCustomSellItemName(`,tag:{display:{Name:"\"${event.target.value}\""}}`);
+    } else {
+      setCustomSellItemName('');
+    }
+  }
+
+  const handleSetSellItemLore = (event) => {
+    setSellItemLore(event.target.value);
+    if (event.target.value !== '') {
+      setCustomSellItemLore(`,Lore:["\"${event.target.value}\""]`);
+    } else {
+      setCustomSellItemLore('');
+    }
+  }
 
 //          Set Output Command & Reset
 // \/===========================================\/
@@ -229,13 +243,18 @@ export default function App() {
       {console.log('specialPrice', specialPrice)}
       {console.log('priceMultiplier', priceMultiplier)}
       {console.log('demand', demand)}
+      {console.log('sellItemName', sellItemName)}
+      {console.log('customSellItemName', customSellItemName)}
+      {console.log('sellItemLore', sellItemLore)}
+      {console.log('customSellItemLore', customSellItemLore)}
+
       {console.log('======================================================')}
 
       <form action=''>
         <h1 className='title'>Villager Trade Generator</h1>
         <hr className='divider' />
         <div className='mob-options'>
-          <h3 className='panel-title'>Villager Type</h3>
+          <h2 className='panel-title'>Villager Type</h2>
           <div>
             <label htmlFor='villagerName'>Villager Name</label>
             <input
@@ -302,12 +321,11 @@ export default function App() {
 
         {/* VILLAGER OPTIONS - checkboxes */}
         <hr className='divider' />
-        <h3 className='panel-title'>Villager Options</h3>
+        <h2 className='panel-title'>Villager Options</h2>
         <div className='options-panel'>
-          <div></div>
           <div className='options'>
             <Checkbox
-              className='invulnerability'
+              className='trade-sub-options'
               value={invulnerability}
               onChange={handleSetProperty(setInvulnerability, `Invulnerable:1`)}
               >click it</Checkbox>
@@ -315,7 +333,7 @@ export default function App() {
           </div>
           <div className='options'>
             <Checkbox
-              className='persistence'
+              className='trade-sub-options'
               value={persistence}
               onChange={handleSetProperty(setPersistence, `PersistenceRequired:1`)}
               >click it</Checkbox>
@@ -323,7 +341,7 @@ export default function App() {
           </div>
           <div className='options'>
             <Checkbox
-              className='silent'
+              className='trade-sub-options'
               value={silent}
               onChange={handleSetProperty(setSilent, `Silent:1`)}
               >click it</Checkbox>
@@ -331,7 +349,7 @@ export default function App() {
           </div>
           <div className='options'>
             <Checkbox
-              className='noAi'
+              className='trade-sub-options'
               value={noAi}
               onChange={handleSetProperty(setNoAi, `NoAI:1`)}
               >click it</Checkbox>
@@ -341,7 +359,7 @@ export default function App() {
 
         {/* VILLAGER EFFECTS - dropdown */}
         <hr className='divider' />
-        <h3 className='panel-title'>Villager Effects</h3>
+        <h2 className='panel-title'>Villager Effects</h2>
         <div>
           <div className='effects-selector'>
             <select
@@ -414,35 +432,35 @@ export default function App() {
         <hr className='divider' />
 
         {/* POSITIONING */}
-        <h3 className='panel-title'>Villager Position</h3>
+        <h2 className='panel-title'>Villager Position</h2>
         <div className='position-panel'>
-          <div></div>
-          <div >
-            <div>
               <div>
-                <label htmlFor='relative'>Position</label>
+                <label htmlFor='relative'>Position:</label>
+                <BiQuestionMark
+                  className='tooltip'
+                  title='Instructions: Select the positioning type and enter the position where you would like the villager to spawn.
+                  Relative positioning will spawn the villager at a position in relation to where the command is run.
+                  Absolute positioning will spawn the villager at a specific coordinate in the world.
+
+                  The coordinate system works as follows:
+
+                  X - A positive value increases position to the East. A negative value increases position to the West.
+                  Y - A positive value increases position upward. A negative value increases position downward.
+                  Z - A positive value increases position to the South. A negative value increases position to the North.
+                  TIP: Use X=0, Y=1, Z=0 with Relative Positioning when you want to spawn the villager above a command block.'
+                />
               </div>
+            <div className='position-panel-item'>
+              <div>
               <select name='relative'
                 value={isRelative}
                 onChange={handleSetIsRelative(setIsRelative)}>
                   <option value={true}>Relative</option>
                   <option value={false}>Absolute</option>
               </select>
-              <FaQuestion
-                className='tooltip'
-                title='Instructions: Select the positioning type and enter the position where you would like the villager to spawn.
-                Relative positioning will spawn the villager at a position in relation to where the command is run.
-                Absolute positioning will spawn the villager at a specific coordinate in the world.
-
-                The coordinate system works as follows:
-
-                X - A positive value increases position to the East. A negative value increases position to the West.
-                Y - A positive value increases position upward. A negative value increases position downward.
-                Z - A positive value increases position to the South. A negative value increases position to the North.
-                TIP: Use X=0, Y=1, Z=0 with Relative Positioning when you want to spawn the villager above a command block.'
-              />
+              </div>
             </div>
-            <div>
+            <div className='position-panel-item'>
               <label htmlFor='xpos'>X:</label>
               <input
                 className='selector-number'
@@ -453,7 +471,7 @@ export default function App() {
                 onChange={handleInputChange(setXPos)}
                 />
             </div>
-            <div>
+            <div className='position-panel-item'>
               <label htmlFor='ypos'>Y:</label>
               <input
                 className='selector-number'
@@ -464,7 +482,7 @@ export default function App() {
                 onChange={handleInputChange(setYPos)}
                 />
             </div>
-            <div>
+            <div className='position-panel-item'>
               <label htmlFor='zpos'>Z:</label>
               <input
                 className='selector-number'
@@ -475,13 +493,15 @@ export default function App() {
                 onChange={handleInputChange(setZPos)}
                 />
             </div>
-          </div>
-          <div>
-            <div>
-              <label htmlFor='xRot'>Rotation</label>
-            </div>
-            <div>
-              <label htmlFor='xRot'>x (body):</label>
+            <div className='position-panel-item'>
+              <label htmlFor='xRot'>Rotation:</label>
+              <BiQuestionMark
+                className='tooltip'
+                title="The X-Rotation is the direction the villager's body is facing in degrees. 0=South, 90=West, 180=North, 270=East. The Y-Rotation that the villager's head is facing in degrees. Positive values look downward and negative values look upward. 0=facing forward, 90=facing straight down, -90=facing straight up"
+              />
+              </div>
+            <div className='position-panel-item'>
+              <label htmlFor='xRot'>X:</label>
               <input
                 className='selector-number'
                 name='xrot'
@@ -490,15 +510,9 @@ export default function App() {
                 value={xRot}
                 onChange={handleInputChange(setXRot)}
               />
-              <FaQuestion
-                className='tooltip'
-                title='The x-rotation that the villager is facing in degrees. Positive values look downward and negative values look upward. 0=facing forward, 90=facing straight down, -90=facing straight up
-                '
-              />
-
               </div>
-            <div>
-              <label htmlFor='yRot'>y (head):</label>
+            <div className='position-panel-item'>
+              <label htmlFor='yRot'>Y:</label>
               <input
                 className='selector-number'
                 name='yrot'
@@ -507,19 +521,14 @@ export default function App() {
                 value={yRot}
                 onChange={handleInputChange(setYRot)}
                 />
-                <FaQuestion
-                className='tooltip'
-                title='The y-rotation that the villager is facing in degrees. 0=South, 90=West, 180=North, 270=East.'
-                />
-            </div>
-            <label htmlFor='yRot'>head tilt: 0=ahead, -90=up, 90=down:</label>
-          </div>
+              </div>
         </div>
         <hr className='divider' />
 
-        {/* TRADES - BUY ITEM 1 */}
-        <h3 className='panel-title'>Villager Trades</h3>
+        <h2 className='panel-title'>Villager Trades</h2>
+        <h3 className='panel-sub-title'>Trade Items</h3>
         <div className='buy-item-panel'>
+          {/* TRADES - BUY ITEM 1 */}
           <div>
             <div>
               <label htmlFor='buy-item-1'>Buy Item 1</label>
@@ -613,25 +622,47 @@ export default function App() {
                     <option key={item.label} value={item.value}>{item.label}</option>
                     ))}
               </select>
-              {(selectedSellItem.label !== undefined) && (
+              {(selectedSellItem.value !== undefined) && (
                 <div>
                   <div>
-                    <label htmlFor='quanitity'>Quantity:</label>
-                    <select
-                      name='quantity'
-                      className='select-menu'
-                      onChange={handleSetItemCount(selectedSellItem, setSellItemCount)}
-                      value={sellItemCount.count}>
-                        {rangeGenerator(1, selectedSellItem.stackSize + 1).map((num) => (num <= selectedSellItem.stackSize ? <option key={num} value={num}>{num}</option> : ''))}
-                      </select>
+                    <div>
+                      <label htmlFor='quanitity'>Quantity:</label>
+                      <select
+                        name='quantity'
+                        className='select-menu'
+                        onChange={handleSetItemCount(selectedSellItem, setSellItemCount)}
+                        value={sellItemCount.count}>
+                          {rangeGenerator(1, selectedSellItem.stackSize + 1).map((num) => (num <= selectedSellItem.stackSize ? <option key={num} value={num}>{num}</option> : ''))}
+                        </select>
+                    </div>
+                    <div className='inventory-slot'>
+                      <img className='inventory-slot-image' src={require('./images/items/inventory_slot.png')} alt='inventory slot'/>
+                      <img className='trade-item-image' src={selectedSellItem.image} alt={selectedSellItem.item} />
+                    </div>
                   </div>
-                  <div className='inventory-slot'>
-                    <img className='inventory-slot-image' src={require('./images/items/inventory_slot.png')} alt='inventory slot'/>
-                    <img className='trade-item-image' src={selectedSellItem.image} alt={selectedSellItem.item} />
+                  <div>
+                    <label htmlFor='item-name'>Item Name</label>
+                    <input
+                      name='item-name'
+                      type='text'
+                      placeholder='enter name'
+                      value={sellItemName}
+                      onChange={handleSetSellItemName}
+                      />
                   </div>
-                  {/* <p>{selectedSellItem.label}</p> */}
+                  <div>
+                    <label htmlFor='item-name'>Item Lore</label>
+                    <input
+                      name='item-name'
+                      type='text'
+                      placeholder='enter lore'
+                      value={sellItemLore}
+                      onChange={handleSetSellItemLore}
+                      />
+                  </div>
                 </div>
               )}
+
               {(selectedSellItem.value !== undefined) && (
               <button onClick={handleClearItem(setSelectedSellItem, setSellItemCount)}>Clear</button>
               )}
@@ -639,9 +670,13 @@ export default function App() {
           </div>
         </div >
 
-          {/* TRADES - TRADE PROPERTIES */}
+          {/* TRADES - TRADE OPTIONS */}
+        {(selectedSellItem.value !== undefined) && (
+      <div>
+        <hr className='divider-secondary' />
+        <h3 className='panel-sub-title'>Trade Options</h3>
         <div className='buy-item-panel'>
-          <div className='trade-options'>
+          <div className='trade-sub-options'>
             <label htmlFor='duration'>Max Uses:</label>
             <input
               className='selector-number'
@@ -651,7 +686,7 @@ export default function App() {
               value={maxUses}
               onChange={handleValueChange(setMaxUses)}
               />
-            <FaQuestion
+            <BiQuestionMark
               className='tooltip'
               title='The number of times the villager can offer this trade before it is unavailable'
             />
@@ -660,21 +695,21 @@ export default function App() {
               {(maxUses === "1") && (' (min=1)')}
             </div>
           </div>
-          <div className='trade-options'>
+          <div className='trade-sub-options'>
             <Checkbox
               className='xp-reward'
               value={xpRewards}
               onChange={handleSetXpRewardsEnabled(setXpRewardsEnabled)}
               >click it</Checkbox>
             <label htmlFor='xp-reward'>Enable XP Rewards</label>
-            <FaQuestion
+            <BiQuestionMark
               className='tooltip'
               title='The amount of XP that is rewarded to the player when the trade is complete'
             />
           </div>
           <div>
               {(xpRewardsEnabled === true) && (
-                <div className='trade-options'>
+                <div className='trade-sub-options'>
                   <label htmlFor='xp'>XP Amount:</label>
                   <select
                     name='xp'
@@ -686,7 +721,7 @@ export default function App() {
                 </div>
               )}
           </div>
-          <div className='trade-options'>
+          <div className='trade-sub-options'>
             <label htmlFor='special-price'>Special Price:</label>
             <select
               name='special-price'
@@ -696,13 +731,13 @@ export default function App() {
                 <option key={0} value={'none'}>-Select-</option>
                 {rangeGenerator(-4, 5).map((num) => (<option key={num} value={num}>{num}</option>))}
             </select>
-            <FaQuestion
+            <BiQuestionMark
               className='tooltip'
               title='Special price adjustment that is applied to the price of the first buy item when the Villager Trade Menu is opened for the first time (use a negative value to reduce the price of the first buy item)'
             />
 
             </div>
-            <div className='trade-options'>
+            <div className='trade-sub-options'>
               <label htmlFor='special-price'>Price Multiplier:</label>
               <select
                 name='special-price'
@@ -711,12 +746,12 @@ export default function App() {
                 value={priceMultiplier}>
                   {priceMultiplierMenu.map((num) => (<option key={num} value={num}>{num}</option>))}
               </select>
-              <FaQuestion
+              <BiQuestionMark
                 className='tooltip'
                 title='Price multiplier that is applied to the first buy item in a trade (use a value of 0 to ensure that the villager never changes the prices for this trade)'
               />
             </div>
-            <div className='trade-options'>
+            <div className='trade-sub-options'>
               <label htmlFor='demand'>Demand:</label>
               <select
                 name='demand'
@@ -725,13 +760,14 @@ export default function App() {
                 value={demand}>
                   {demandMenu.map((num) => (<option key={num} value={num}>{num}</option>))}
               </select>
-              <FaQuestion
+              <BiQuestionMark
                 className='tooltip'
                 title='Indicates the demand for the trade which is used to adjust the price of the first buy item by the villager'
               />
             </div>
-
-          </div>
+        </div>
+      </div>
+        )}
 
 
         <div className='generate-command-panel'>

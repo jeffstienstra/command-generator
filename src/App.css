@@ -4,7 +4,7 @@
   color: #eeeeee;
   background-color: #353639;
   min-width: 650px;
-  padding: 0px 10px 20px 10px;
+  padding: 0px 10px 100px 10px;
 }
 .App-header {
   background-color: #282c34;
@@ -29,7 +29,7 @@
 }
 .active-effects-panel .active-effect {
   width: 150px;
-  padding: 10px 0 0 0;
+  padding: 5px 0 0 0;
 }
 .badge-image {
   max-height: 3em;
@@ -42,32 +42,52 @@
   justify-content: center;
   width: 640px;
   grid-template-columns: 200px 200px 200px;
-  padding: 0px 10px 5px 10px;
+  padding: 5px 10px 5px 10px;
   margin: 0 calc((100vw - 640px - 40px) / 2) 0 calc((100vw - 640px - 40px) / 2);
-  align-items: center;
+  align-items: top;
 }
 .buy-item-panel .trade-options {
   padding: 0px 0 0 0;
   justify-content: center;
 }
-.buy-item-panel .trade-options .trade-sub-options {
-  margin: -10px 0 0 0;
+.buy-item-panel .trade-sub-options {
+  padding: 5px 0 0 0;
+  align-items: center;
+  justify-content: center;
+}
+.buy-item-panel .trade-sub-options .tooltip {
+  padding: 0px 0 0 2px;
+}
+.buy-item-panel .xp-reward {
+  width: 21px;
+  height: 21px;
 }
 .buy-item-panel-trade-label {
   width: 25px;
 }
 .command-text {
+  background-color: #252628;
+  border-radius: 5px;
+  border-width: 2px;
+  border-color: #616161;
   margin: 0 0 0 0;
-  padding: 5px 0px 5px 0px;
+  padding: 5px 5px 5px 5px;
 }
 .divider {
   color: #434343;
-  max-width: 550px;
+  max-width: 650px;
+}
+hr.divider-secondary {
+  border: 2px dotted #989898;
+  max-width: 300px;
 }
 .effect-image {
   max-height: 10em;
   position: relative;
   padding: 0;
+}
+.effects-selector {
+  padding: 0 0 5px 0;
 }
 .generate-command-panel {
   padding: 0px 10px 5px 10px;
@@ -89,8 +109,15 @@
 }
 .options-panel {
   display: grid;
-  grid-template-columns: 1fr 150px 150px 150px 150px 1fr;
-  padding: 0px 10px 10px 10px;
+  width: 650px;
+  grid-template-columns: 150px 150px 150px 150px;
+  margin: 0 calc((100vw - 640px - 40px) / 2) 0 calc((100vw - 640px - 40px) / 2);
+  justify-content: center;
+  padding: 0px 10px 5px 10px;
+}
+.options-panel .trade-sub-options {
+  width: 21px;
+  height: 21px;
 }
 .options {
   max-width: 145px;
@@ -98,10 +125,21 @@
 .panel-title {
   margin: 10px;
 }
+.panel-sub-title {
+  margin: 0;
+  padding: 0;
+}
 .position-panel {
   display: grid;
-  grid-template-columns: 1fr 175px 175px 1fr;
-  padding: 0px 75px 5px 75px;
+  width: 650px;
+  grid-template-columns: 100px 100px 100px 100px 100px;
+  margin: 0 calc((100vw - 640px - 40px) / 2) 0 calc((100vw - 640px - 20px) / 2);
+  padding: 0 0 0 0;
+  justify-content: center;
+  align-items: center;
+}
+.position-panel .position-panel-item {
+  padding: 0 0 5px 0;
 }
 .select-menu {
   max-height: 50px;
@@ -113,7 +151,9 @@
   width: 175px;
 }
 .tooltip {
+  position: relative;
   cursor: pointer;
+  padding: 0 0 0 2px;
 }
 .trade-item-image {
   position: relative;
