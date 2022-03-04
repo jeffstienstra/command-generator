@@ -1,5 +1,5 @@
 
-const hooksHelper = {
+const villagerTradeItemsHelper = {
     handleValueChange(setter) {
         return (event) => {
             setter(event.target.value);
@@ -61,4 +61,4 @@ const hooksHelper = {
     },
 };
 
-module.exports = hooksHelper;
+module.exports = villagerTradeItemsHelper;

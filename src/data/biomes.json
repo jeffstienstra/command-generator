@@ -1,5 +1,4 @@
 [
-    {"value": "none", "label": "-Select-" },
     {"value": "desert", "label": "Desert" },
     {"value": "jungle", "label": "Jungle" },
     {"value": "plains", "label": "Plains" },

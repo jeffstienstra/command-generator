@@ -434,94 +434,94 @@ export default function App() {
         {/* POSITIONING */}
         <h2 className='panel-title'>Villager Position</h2>
         <div className='position-panel'>
-              <div>
-                <label htmlFor='relative'>Position:</label>
-                <BiQuestionMark
-                  className='tooltip'
-                  title='Instructions: Select the positioning type and enter the position where you would like the villager to spawn.
-                  Relative positioning will spawn the villager at a position in relation to where the command is run.
-                  Absolute positioning will spawn the villager at a specific coordinate in the world.
+          <div>
+            <label htmlFor='relative'>Position:</label>
+            <BiQuestionMark
+              className='tooltip'
+              title='Instructions: Select the positioning type and enter the position where you would like the villager to spawn.
+              Relative positioning will spawn the villager at a position in relation to where the command is run.
+              Absolute positioning will spawn the villager at a specific coordinate in the world.
 
-                  The coordinate system works as follows:
+              The coordinate system works as follows:
 
-                  X - A positive value increases position to the East. A negative value increases position to the West.
-                  Y - A positive value increases position upward. A negative value increases position downward.
-                  Z - A positive value increases position to the South. A negative value increases position to the North.
-                  TIP: Use X=0, Y=1, Z=0 with Relative Positioning when you want to spawn the villager above a command block.'
-                />
-              </div>
-            <div className='position-panel-item'>
-              <div>
-              <select name='relative'
-                value={isRelative}
-                onChange={handleSetIsRelative(setIsRelative)}>
-                  <option value={true}>Relative</option>
-                  <option value={false}>Absolute</option>
-              </select>
-              </div>
+              X - A positive value increases position to the East. A negative value increases position to the West.
+              Y - A positive value increases position upward. A negative value increases position downward.
+              Z - A positive value increases position to the South. A negative value increases position to the North.
+              TIP: Use X=0, Y=1, Z=0 with Relative Positioning when you want to spawn the villager above a command block.'
+            />
+          </div>
+          <div className='position-panel-item'>
+            <div>
+            <select name='relative'
+              value={isRelative}
+              onChange={handleSetIsRelative(setIsRelative)}>
+                <option value={true}>Relative</option>
+                <option value={false}>Absolute</option>
+            </select>
             </div>
-            <div className='position-panel-item'>
-              <label htmlFor='xpos'>X:</label>
-              <input
-                className='selector-number'
-                name='xpos'
-                type='number'
-                placeholder='0'
-                value={xPos}
-                onChange={handleInputChange(setXPos)}
-                />
-            </div>
-            <div className='position-panel-item'>
-              <label htmlFor='ypos'>Y:</label>
-              <input
-                className='selector-number'
-                name='ypos'
-                type='number'
-                placeholder='0'
-                value={yPos}
-                onChange={handleInputChange(setYPos)}
-                />
-            </div>
-            <div className='position-panel-item'>
-              <label htmlFor='zpos'>Z:</label>
-              <input
-                className='selector-number'
-                name='zpos'
-                type='number'
-                placeholder='0'
-                value={zPos}
-                onChange={handleInputChange(setZPos)}
-                />
-            </div>
-            <div className='position-panel-item'>
-              <label htmlFor='xRot'>Rotation:</label>
-              <BiQuestionMark
-                className='tooltip'
-                title="The X-Rotation is the direction the villager's body is facing in degrees. 0=South, 90=West, 180=North, 270=East. The Y-Rotation that the villager's head is facing in degrees. Positive values look downward and negative values look upward. 0=facing forward, 90=facing straight down, -90=facing straight up"
+          </div>
+          <div className='position-panel-item'>
+            <label htmlFor='xpos'>X:</label>
+            <input
+              className='selector-number'
+              name='xpos'
+              type='number'
+              placeholder='0'
+              value={xPos}
+              onChange={handleInputChange(setXPos)}
               />
-              </div>
-            <div className='position-panel-item'>
-              <label htmlFor='xRot'>X:</label>
-              <input
-                className='selector-number'
-                name='xrot'
-                type='number'
-                placeholder='0'
-                value={xRot}
-                onChange={handleInputChange(setXRot)}
+          </div>
+          <div className='position-panel-item'>
+            <label htmlFor='ypos'>Y:</label>
+            <input
+              className='selector-number'
+              name='ypos'
+              type='number'
+              placeholder='0'
+              value={yPos}
+              onChange={handleInputChange(setYPos)}
               />
-              </div>
-            <div className='position-panel-item'>
-              <label htmlFor='yRot'>Y:</label>
-              <input
-                className='selector-number'
-                name='yrot'
-                type='number'
-                placeholder='0'
-                value={yRot}
-                onChange={handleInputChange(setYRot)}
-                />
-              </div>
+          </div>
+          <div className='position-panel-item'>
+            <label htmlFor='zpos'>Z:</label>
+            <input
+              className='selector-number'
+              name='zpos'
+              type='number'
+              placeholder='0'
+              value={zPos}
+              onChange={handleInputChange(setZPos)}
+              />
+          </div>
+          <div className='position-panel-item'>
+            <label htmlFor='xRot'>Rotation:</label>
+            <BiQuestionMark
+              className='tooltip'
+              title="The X-Rotation is the direction the villager's body is facing in degrees. 0=South, 90=West, 180=North, 270=East. The Y-Rotation that the villager's head is facing in degrees. Positive values look downward and negative values look upward. 0=facing forward, 90=facing straight down, -90=facing straight up"
+            />
+            </div>
+          <div className='position-panel-item'>
+            <label htmlFor='xRot'>X:</label>
+            <input
+              className='selector-number'
+              name='xrot'
+              type='number'
+              placeholder='0'
+              value={xRot}
+              onChange={handleInputChange(setXRot)}
+            />
+            </div>
+          <div className='position-panel-item'>
+            <label htmlFor='yRot'>Y:</label>
+            <input
+              className='selector-number'
+              name='yrot'
+              type='number'
+              placeholder='0'
+              value={yRot}
+              onChange={handleInputChange(setYRot)}
+              />
+            </div>
         </div>
         <hr className='divider' />
 
