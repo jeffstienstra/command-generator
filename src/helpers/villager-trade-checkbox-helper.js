@@ -1,5 +1,15 @@
 
-const villagerPropertiesHelper = {
+const villagerTradeCheckboxHelper = {
+    handleSetProperty(setter, value) {
+        return (event) => {
+            if (event.target.checked === true) {
+                setter(value);
+            } else {
+                setter('');
+            };
+        };
+    },
+
     handleSetInvulnerability(setter) {
         return (event) => {
             if (event.target.checked === true) {
@@ -49,6 +59,12 @@ const villagerPropertiesHelper = {
             };
         };
     },
+
+    handleSetXpRewardsEnabled(setter) {
+        return (event) => {
+            setter(event.target.checked);
+        };
+    },
 };
 
-module.exports = villagerPropertiesHelper;
+module.exports = villagerTradeCheckboxHelper;
