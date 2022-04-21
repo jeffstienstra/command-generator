@@ -9,6 +9,7 @@ import professions from './data/professions'
 import workstations from './data/workstations'
 import {BiQuestionMark} from "react-icons/bi";
 
+// Helper functions
 const _ = require('lodash');
 const {
   handleClearItem,
@@ -17,13 +18,11 @@ const {
   handleSetSelectedItem,
   handleValueChange
   } = require('./helpers/villager-trade-items-helper');
-
 const {
   handleSetIsRelative,
   handleSetProperty,
   handleSetXpRewardsEnabled
   } = require('./helpers/villager-trade-checkbox-helper');
-
 const {
   handleAddEffect,
   handleRemoveEffect
@@ -233,6 +232,7 @@ export default function App() {
 
   return (
     <div className='App'>
+      {/* TODO: delete logs after testing */}
       {console.log('effects : ', effects)}
       {console.log('selectedBuyItem1', selectedBuyItem1)}
       {console.log('selectedBuyItem2', selectedBuyItem2)}
